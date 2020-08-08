@@ -6,6 +6,10 @@ const path = require('path')
 app.use('/', express.static(path.resolve(__dirname, 'user/static')))
 app.use('/admin', express.static(path.resolve(__dirname, 'admin/static')))
 
+// api routers
+app.use('/api', require(path.resolve(__dirname, 'user/apiRouter')))
+app.use('/admin/api', require(path.resolve(__dirname, 'admin/apiRouter')))
+
 // catch client side router request
 app.get('/*', (req, res) =>
     res.sendFile(path.resolve(__dirname, 'user/static/index.html'))
