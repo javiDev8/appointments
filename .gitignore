@@ -1,3 +1,5 @@
 node_modules
 .env
 .gitcmtmsg
+src/admin/static
+src/user/static
