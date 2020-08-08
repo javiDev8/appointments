@@ -1,6 +1,11 @@
 const express = require('express')
 const app = express()
 const path = require('path')
+const formidable = require('express-formidable')
+require('dotenv').config()
+
+// setting middlewares
+app.use(formidable())
 
 // static files (bundles)
 app.use('/', express.static(path.resolve(__dirname, 'user/static')))
@@ -18,5 +23,5 @@ app.get('/admin/*', (req, res) =>
     res.sendFile(path.resolve(__dirname, 'admin/static/index.html'))
 )
 
-const { port } = require('./env.js')
+const port = process.env.PORT
 app.listen(port, () => console.log('server on port: ', port))
