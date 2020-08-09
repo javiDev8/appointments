@@ -3,6 +3,7 @@ const smtpTransport = require('nodemailer-smtp-transport')
 const path = require('path')
 const User = require(path.resolve(__dirname, '../../models/user'))
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 module.exports = async (req, res) => {
     // set email transporter
@@ -21,14 +22,19 @@ module.exports = async (req, res) => {
         res.status(409).send(`el email ${req.fields.email} ya está registrado`)
     else {
         const user = await new User({
+            name: req.fields.name,
             email: req.fields.email,
+            hashedPass: await bcrypt.hashSync(req.fields.pass, 5),
         })
+
         try {
             let nodemailerRespone = await transporter.sendMail({
                 from: process.env.EMAIL,
                 to: req.fields.email,
                 subject: 'test',
-                text: `http://localhost:3000/api/verifiy/?hash=${await jwt.sign(
+                text: `${
+                    process.env.HOST_URL
+                }/api/verifiy/?hash=${await jwt.sign(
                     { data: req.fields.email },
                     process.env.VERIF_EMAIL_JWT_KEY,
                     { expiresIn: '1h' }

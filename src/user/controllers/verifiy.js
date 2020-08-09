@@ -14,11 +14,12 @@ module.exports = async (req, res) => {
 
         // if user found set as verified
         if (userMatch) {
-            userMatch.verify = true
+	    console.log( 'lets verify the user!' )
+            userMatch.verified = true
             userMatch.save()
             res.redirect('/login')
-        } else res.send(442)
+        } else res.status(442).send()
     } catch (err) {
-        res.send(442)
+        res.status(442).send()
     }
 }

@@ -9,6 +9,6 @@ module.exports = model(
             type: Boolean,
             default: false,
         },
-        password: String,
+        hashedPass: String,
     })
 )

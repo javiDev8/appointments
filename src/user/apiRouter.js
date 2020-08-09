@@ -10,4 +10,6 @@ router.post(
     require(path.resolve(__dirname, 'controllers/signup.js'))
 )
 
+router.post('/login', require(path.resolve(__dirname, './controllers/login')))
+
 module.exports = router
