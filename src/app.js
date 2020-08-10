@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const formidable = require('express-formidable')
+const cookieParser = require('cookie-parser')
 require('dotenv').config()
 
 // init database
@@ -9,6 +10,7 @@ require(path.resolve(__dirname, 'database'))
 
 // setting middlewares
 app.use(formidable())
+app.use(cookieParser())
 
 // static files (bundles)
 app.use('/', express.static(path.resolve(__dirname, 'user/static')))
