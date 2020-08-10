@@ -7,16 +7,16 @@ require('dotenv').config()
 module.exports = async (req, res) => {
     const user = await User.findOne({ email: req.fields.email })
 
-    if(!user.verified) res.status(401).send('cuenta no verificada')
-
     // if not found such user in database send 204 code (no content)
     if (!user) res.status(204).send()
     else {
-	// if right password
+        if (!user.verified) res.status(401).send('cuenta no verificada')
+        // if right password
         if (await bcrypt.compareSync(req.fields.pass, user.hashedPass))
             try {
                 res.status(200)
-		    // standard http token cookie
+
+                    // standard http token cookie
                     .cookie(
                         'token',
                         `Bearer ${await jwt.sign(
@@ -25,10 +25,11 @@ module.exports = async (req, res) => {
                         )}`,
                         { httpOnly: true }
                     )
-                    .send()
+                    .send({ userId: user._id })
             } catch (err) {
                 res.status(500).send()
             }
-        else res.status(401).send()
+        // if wrong password delay respnonse
+        else setTimeout(() => res.status(401).send(), 3000)
     }
 }
