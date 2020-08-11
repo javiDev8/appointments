@@ -4,7 +4,7 @@ const Appt = require(path.resolve(__dirname, '../../models/appointment'))
 module.exports = async (req, res) => {
     try {
         const appt = await new Appt({
-            userId: req.user._id,
+            userId: req.id,
             message: req.fields.message,
         })
         appt.save()

@@ -7,8 +7,7 @@ require('dotenv').config()
 module.exports = async (req, res) => {
     const user = await User.findOne({ email: req.fields.email })
 
-    // if not found such user in database send 204 code (no content)
-    if (!user) res.status(204).send()
+    if (!user) res.status(401).send()
     else {
         if (!user.verified) res.status(401).send('cuenta no verificada')
         // if right password

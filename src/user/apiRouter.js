@@ -1,12 +1,15 @@
 const router = require('express').Router()
 const path = require('path')
+require('dotenv').config()
 
 // import middlewares
 const preventBrute = require(path.resolve(
     __dirname,
-    './middlewares/preventBrute'
+    '../middlewares/preventBrute'
 ))
-const auth = require(path.resolve(__dirname, './middlewares/auth'))
+const auth = require(path.resolve(__dirname, '../middlewares/auth'))(
+    process.env.USER_LOGIN_JWT_KEY
+)
 
 // controller importer wrapper
 const getController = controller =>
@@ -23,7 +26,9 @@ router.get('/user', auth, getController('user'))
 
 router.post('/apptrequest', auth, getController('apptRequest'))
 
-router.delete('/logout', getController('logOut'))
+router.delete('/logout', (req, res) =>
+    res.status(200).clearCookie('token').send()
+)
 
 // export router
 module.exports = router
