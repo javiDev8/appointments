@@ -8,28 +8,22 @@ const preventBrute = require(path.resolve(
 ))
 const auth = require(path.resolve(__dirname, './middlewares/auth'))
 
+// controller importer wrapper
+const getController = controller =>
+    require(path.resolve(__dirname, './controllers/', controller))
+
 // routes
-router.get('/', (req, res) => res.send('user api index path'))
+router.get('/verifiy', getController('verifiy'))
 
-router.get('/verifiy', require(path.resolve(__dirname, 'controllers/verifiy')))
+router.post('/signup', getController('signup'))
 
-router.post(
-    '/signup',
-    require(path.resolve(__dirname, 'controllers/signup.js'))
-)
+router.post('/login', preventBrute, getController('login'))
 
-router.post(
-    '/login',
-    preventBrute,
-    require(path.resolve(__dirname, './controllers/login'))
-)
+router.get('/user', auth, getController('user'))
 
-// testing endpoint
-router.get('/protected', auth, (req, res) => res.status(200).send(req.user))
+router.post('/apptrequest', auth, getController('apptRequest'))
 
-router.delete(
-    '/logout',
-    require(path.resolve(__dirname, './controllers/logOut'))
-)
+router.delete('/logout', getController('logOut'))
 
+// export router
 module.exports = router

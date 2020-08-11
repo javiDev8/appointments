@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
         })
 
         try {
-            let nodemailerRespone = await transporter.sendMail({
+            await transporter.sendMail({
                 from: process.env.EMAIL,
                 to: req.fields.email,
                 subject: 'test',

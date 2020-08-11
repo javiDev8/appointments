@@ -5,9 +5,5 @@ module.exports = model(
     new Schema({
         email: String,
         hashedPass: String,
-	frozen: {
-	    type: Boolean,
-	    default: false
-	}
     })
 )
