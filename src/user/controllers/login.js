@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
                         'token',
                         `Bearer ${await jwt.sign(
                             user._id.toString(),
-                            process.env.LOGIN_JWT_KEY
+                            process.env.USER_LOGIN_JWT_KEY
                         )}`,
                         { httpOnly: true }
                     )

@@ -24,7 +24,7 @@ router.post('/login', preventBrute, getController('login'))
 
 router.get('/user', auth, getController('user'))
 
-router.post('/apptrequest', auth, getController('apptRequest'))
+router.post('/requestappt', auth, getController('requestAppt'))
 
 router.delete('/logout', (req, res) =>
     res.status(200).clearCookie('token').send()
