@@ -6,18 +6,18 @@ const checkAvailability = require(path.resolve(
 ))
 
 module.exports = async (req, res) => {
-    const reqStart = new Date(req.fields.start)
-    const reqEnd = new Date(req.fields.end)
+    // config start and end of requested date
+    const date = new Date(req.fields.date)
+    const reqStart = new Date(date)
+    const duration = 60 // stimated duration in minutes
+    const reqEnd = new Date(date.setMinutes(date.getMinutes() + duration))
 
     // if available date make new event and save it
-    if (
-        (
-            await checkAvailability({
-                start: reqStart,
-                end: reqEnd,
-            })
-        ).success
-    ) {
+    const available = await checkAvailability({
+        start: reqStart,
+        end: reqEnd,
+    })
+    if (available.success) {
         const appt = await new Event({
             start: reqStart,
             end: reqEnd,
@@ -26,5 +26,10 @@ module.exports = async (req, res) => {
         })
         appt.save()
         res.status(201).send()
-    } else res.status(422).send()
+    } else
+        res.status(
+            available.error === 'event collision'
+                ? 422
+                : 500
+        ).send()
 }

@@ -24,6 +24,8 @@ router.post('/login', preventBrute, getController('login'))
 
 router.get('/user', auth, getController('user'))
 
+router.get('/getavailables', auth, getController('getAvailables'))
+
 router.post('/requestappt', auth, getController('requestAppt'))
 
 router.delete('/logout', (req, res) =>
