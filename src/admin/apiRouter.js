@@ -19,6 +19,16 @@ router.get('/users', auth, getController('users'))
 
 router.post('/login', preventBrute, getController('login'))
 
+router
+    .route('/events')
+    .get(auth, getController('getEvents.js'))
+    .post(auth, getController('postEvent.js'))
+
+router
+    .route('/recurrents')
+    .get(auth, getController('getRecurrents'))
+    .post(auth, getController('postRecurrent'))
+
 router.delete('/logout', (req, res) =>
     res.status(200).clearCookie('token').send()
 )

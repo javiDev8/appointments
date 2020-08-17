@@ -22,7 +22,7 @@ router.post('/signup', getController('signup'))
 
 router.post('/login', preventBrute, getController('login'))
 
-router.get('/user', auth, getController('user'))
+router.get('/check', auth, (req, res) => res.status(200).send())
 
 router.get('/getavailables', auth, getController('getAvailables'))
 

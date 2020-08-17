@@ -32,6 +32,8 @@ module.exports = async date => {
 
     const availables = []
     const minTime = 3600000 // one hour
+    
+    // push in array each time diference larger than one hour between each event
     for (var i = 0; i < dayEvents.length - 1; i++) {
         if (dayEvents[i + 1].start - dayEvents[i].end > minTime)
             availables.push({

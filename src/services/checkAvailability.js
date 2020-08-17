@@ -8,7 +8,7 @@ const RecurrentEvent = require(path.resolve(
 module.exports = async date => {
     try {
         // find spliced events
-        const splicedEvents = await Event.findOne({
+        const splicedEvent = await Event.findOne({
             $or: [
                 {
                     $and: [
@@ -24,7 +24,12 @@ module.exports = async date => {
                 },
             ],
         })
-        if (splicedEvents) return { success: false, error: 'event collision' }
+        if (splicedEvent)
+            return {
+                success: false,
+                error: 'event collision',
+                event: splicedEvent,
+            }
 
         // import module to find and format recurrent events
         const recurrentsInDates = await require(path.resolve(
@@ -42,7 +47,11 @@ module.exports = async date => {
 
         // if not empty array, return no available
         if (splicedRecurrents.length > 0)
-            return { success: false, error: 'event collision' }
+            return {
+                success: false,
+                error: 'event collision',
+                event: splicedRecurrents,
+            }
 
         return { success: true }
     } catch (err) {
