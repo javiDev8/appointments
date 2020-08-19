@@ -6,17 +6,6 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
 module.exports = async (req, res) => {
-    // set email transporter
-    const transporter = nodemailer.createTransport(
-        smtpTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL,
-                pass: process.env.EMAIL_PASS,
-            },
-        })
-    )
-
     // already registered email?
     if (await User.findOne({ email: req.fields.email }).select('email'))
         res.status(409).send(`el email ${req.fields.email} ya está registrado`)
@@ -28,6 +17,16 @@ module.exports = async (req, res) => {
         })
 
         try {
+            // set email transporter
+            const transporter = nodemailer.createTransport(
+                smtpTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: process.env.EMAIL,
+                        pass: process.env.EMAIL_PASS,
+                    },
+                })
+            )
             await transporter.sendMail({
                 from: process.env.EMAIL,
                 to: req.fields.email,

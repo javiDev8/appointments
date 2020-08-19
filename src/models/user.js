@@ -5,6 +5,8 @@ module.exports = model(
     new Schema({
         name: String,
         email: String,
+	phoneNum: Number,
+	birthDate: Date,
         verified: {
             type: Boolean,
             default: false,
