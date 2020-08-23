@@ -6,6 +6,12 @@ const checkAvailability = require(path.resolve(
 ))
 
 module.exports = async (req, res) => {
+    // if request doesnt have date or description return 400: bad request
+    if (!req.fields.date || !req.fields.description) {
+        res.status(400).send()
+        return
+    }
+
     // config start and end of requested date
     const date = new Date(req.fields.date)
     const reqStart = new Date(date)
@@ -18,18 +24,20 @@ module.exports = async (req, res) => {
         end: reqEnd,
     })
     if (available.success) {
-        const appt = await new Event({
-            start: reqStart,
-            end: reqEnd,
-            isAppt: true,
-            description: req.fields.description,
-        })
-        appt.save()
-        res.status(201).send()
-    } else
-        res.status(
-            available.error === 'event collision'
-                ? 422
-                : 500
-        ).send()
+        try {
+            const appt = await new Event({
+                start: reqStart,
+                end: reqEnd,
+                isAppt: true,
+                description: {
+                    userId: req.id,
+		    reason: req.fields.description.reason
+                },
+            })
+            appt.save()
+            res.status(201).send()
+        } catch {
+            res.status(500).send()
+        }
+    } else res.status(available.error === 'event collision' ? 422 : 500).send()
 }

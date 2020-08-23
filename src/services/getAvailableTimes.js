@@ -23,16 +23,20 @@ module.exports = async date => {
         await Event.find({
             $and: [{ start: { $gte: dateStart } }, { end: { $lte: dateEnd } }],
         }).select('-_id start end')
-    ).concat(
-        await getRecurrentsInDates({
-            start: dateStart,
-            end: dateEnd,
-        })
     )
+        .concat(
+            await getRecurrentsInDates({
+                start: dateStart,
+                end: dateEnd,
+            })
+        )
+
+        // sort first earlier events
+        .sort((a, b) => a.start - b.start)
 
     const availables = []
     const minTime = 3600000 // one hour
-    
+
     // push in array each time diference larger than one hour between each event
     for (var i = 0; i < dayEvents.length - 1; i++) {
         if (dayEvents[i + 1].start - dayEvents[i].end > minTime)
