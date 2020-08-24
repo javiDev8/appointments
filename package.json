@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "sudo systemctl start mongodb && nodemon src/app.js",
-    "start": "node src/app.js"
+    "dev": "sudo systemctl start mongodb && nodemon src/init.js",
+    "start": "node src/init.js"
   },
   "keywords": [],
   "author": "",

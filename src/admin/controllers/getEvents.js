@@ -5,9 +5,7 @@ const getEvents = require(path.resolve(__dirname, '../../services/getEvents'))
 module.exports = async (req, res) => {
     // parse filter
     const filter = JSON.parse(req.query.filter)
-
-    console.log( 'parsed filter:', filter )
-    console.log( 'by user?:', req.query.byUser )
+    console.log( 'filter:', filter )
 
     if (filter.event.pending) {
         // filter events that starts after *right now*

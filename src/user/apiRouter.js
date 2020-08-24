@@ -28,6 +28,8 @@ router.get('/getavailables', auth, getController('getAvailables'))
 
 router.post('/requestappt', auth, getController('requestAppt'))
 
+router.get('/history', auth, getController('getHistory'))
+
 router.delete('/logout', (req, res) =>
     res.status(200).clearCookie('token').send()
 )
