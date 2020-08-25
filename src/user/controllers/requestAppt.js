@@ -33,6 +33,7 @@ module.exports = async (req, res) => {
                     userId: req.id,
                     reason: req.fields.description.reason,
                     confirmed: false,
+		    aware: false
                 },
             })
             appt.save()
