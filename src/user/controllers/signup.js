@@ -1,9 +1,9 @@
-nodemailer = require('nodemailer')
-const smtpTransport = require('nodemailer-smtp-transport')
 const path = require('path')
 const User = require(path.resolve(__dirname, '../../models/user'))
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const sendMail = require(path.resolve(__dirname, '../../services/sendMail'))
+require('dotenv').config()
 
 module.exports = async (req, res) => {
     // already registered email?
@@ -17,20 +17,9 @@ module.exports = async (req, res) => {
         })
 
         try {
-            // set email transporter
-            const transporter = nodemailer.createTransport(
-                smtpTransport({
-                    service: 'gmail',
-                    auth: {
-                        user: process.env.EMAIL,
-                        pass: process.env.EMAIL_PASS,
-                    },
-                })
-            )
-            await transporter.sendMail({
-                from: process.env.EMAIL,
-                to: req.fields.email,
-                subject: 'test',
+            await sendMail({
+                userEmail: req.fields.email,
+                subject: 'verifica tu cuenta',
                 text: `${
                     process.env.HOST_URL
                 }/api/verifiy/?hash=${await jwt.sign(

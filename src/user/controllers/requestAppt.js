@@ -31,7 +31,8 @@ module.exports = async (req, res) => {
                 isAppt: true,
                 description: {
                     userId: req.id,
-		    reason: req.fields.description.reason
+                    reason: req.fields.description.reason,
+                    confirmed: false,
                 },
             })
             appt.save()

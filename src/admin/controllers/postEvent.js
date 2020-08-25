@@ -12,7 +12,11 @@ module.exports = async (req, res) => {
         start: reqStart,
         end: reqEnd,
     })
-    if (available.success || req.fields.overwrite) {
+
+    console.log('available:', available)
+
+    // if time available or admin wants to overwrite
+    if (JSON.parse(req.fields.overwrite) || available.success) {
         const event = new Event({
             start: reqStart,
             end: reqEnd,

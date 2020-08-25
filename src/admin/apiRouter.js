@@ -29,6 +29,8 @@ router
     .get(auth, getController('getRecurrents'))
     .post(auth, getController('postRecurrent'))
 
+router.put('/confirm', auth, getController('confirmAppt'))
+
 router.get('/check', auth, (req, res) => res.status(200).send())
 
 router.delete('/logout', (req, res) =>
