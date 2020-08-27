@@ -19,15 +19,19 @@ router.get('/users', auth, getController('users'))
 
 router.post('/login', preventBrute, getController('login'))
 
+router.get('/appts', auth, getController('getAppts'))
+
 router
     .route('/events')
-    .get(auth, getController('getEvents.js'))
-    .post(auth, getController('postEvent.js'))
+    .get(auth, getController('getEvents'))
+    .post(auth, getController('postEvent'))
+    .delete(auth, getController('deleteEvent'))
 
 router
     .route('/recurrents')
     .get(auth, getController('getRecurrents'))
     .post(auth, getController('postRecurrent'))
+    .delete(auth, getController('deleteRecurrent'))
 
 router.put('/confirm', auth, getController('confirmAppt'))
 

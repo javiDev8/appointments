@@ -14,6 +14,6 @@ module.exports = model(
             hour: Number,
             minute: Number,
         },
-        description: Object,
+        description: String,
     })
 )
