@@ -3,3 +3,5 @@ node_modules
 .gitcmtmsg
 src/admin/static
 src/user/static
+src/user/static
+src/admin/static

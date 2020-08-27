@@ -17,6 +17,7 @@ module.exports = async (req, res) => {
         })
 
         try {
+	    console.log( 'send mail module:', sendMail )
             await sendMail({
                 userEmail: req.fields.email,
                 subject: 'verifica tu cuenta',
