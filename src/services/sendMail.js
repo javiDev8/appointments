@@ -3,7 +3,7 @@ const smtpTransport = require('nodemailer-smtp-transport')
 require('dotenv').config()
 
 module.exports = async ({ userEmail, subject, text }) => {
-    // console.log('params in send mail module:', userEmail, subject, text)
+
     // set email transporter
     const transporter = await nodemailer.createTransport(
         smtpTransport({

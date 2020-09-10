@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 module.exports = key => async (req, res, next) => {
     // if request doesnt event have token send 'unauthorized'
     if (!req.cookies || !req.cookies.token) {
-	console.log( 'no cookie!' )
+        console.log('no cookie!')
         res.status(401).send()
         return
     }
@@ -18,6 +18,6 @@ module.exports = key => async (req, res, next) => {
         next()
     } catch (err) {
         // invalid or expired token
-        setTimeout(() => res.status(401).send(), 3000)
+        res.status(401).send()
     }
 }

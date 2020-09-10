@@ -7,7 +7,7 @@ const checkAvailability = require(path.resolve(
 
 module.exports = async (req, res) => {
     // if request doesnt have date or description return 400: bad request
-    if (!req.fields.date || !req.fields.description) {
+    if (!req.fields.date || !req.fields.reason) {
         res.status(400).send()
         return
     }
@@ -24,6 +24,9 @@ module.exports = async (req, res) => {
         end: reqEnd,
     })
     if (available.success) {
+
+	console.log( 'fields:', req.fields )
+
         try {
             const appt = await new Event({
                 start: reqStart,
@@ -31,7 +34,7 @@ module.exports = async (req, res) => {
                 isAppt: true,
                 description: {
                     userId: req.id,
-                    reason: req.fields.description.reason,
+                    reason: req.fields.reason,
                     confirmed: false,
 		    aware: false
                 },

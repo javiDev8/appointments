@@ -2,7 +2,6 @@ const path = require('path')
 const Event = require(path.resolve(__dirname, '../../models/event'))
 
 module.exports = async (req, res) => {
-
     try {
         const appt = await Event.findOne({ _id: req.fields.apptId })
 
@@ -21,7 +20,7 @@ module.exports = async (req, res) => {
         // set aware as true
         appt.description.aware = true
         appt.markModified('description.aware')
-        appt.save()
+        console.log('save doc result:', appt.save())
 
         res.status(200).send()
     } catch (err) {
